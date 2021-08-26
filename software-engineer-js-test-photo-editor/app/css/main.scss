@@ -1,0 +1,38 @@
+body {
+  font-family: Helvetica, Verdana, sans-serif;
+  line-height: 1.5em;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  margin: 0 auto;
+  width: 60%;
+  flex-direction: column;
+  text-align: center;
+}
+
+.column {
+  width: 99%;
+  margin: 0.5%;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#imageContainer,
+#debugContainer {
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+#imageContainer img {
+  width: 100%;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
