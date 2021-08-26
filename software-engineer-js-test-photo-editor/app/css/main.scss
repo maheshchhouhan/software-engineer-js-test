@@ -4,10 +4,45 @@ body {
   height: 100%;
 }
 
+@mixin button($bg-color) {
+  background-color: $bg-color;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.scaleImageButtons {
+  background-color: #008cba;
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+#generateButton {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
 .container {
   display: flex;
   margin: 0 auto;
-  width: 60%;
+  width: 1000px;
   flex-direction: column;
   text-align: center;
 }
@@ -22,6 +57,21 @@ body {
   flex-direction: column;
 }
 
+.buttonContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 40%;
+  margin: 10px 0;
+}
+
+#canvas {
+  width: 900px;
+  height: 600px;
+  border: dotted;
+  margin: 25px 0;
+}
+
 #imageContainer,
 #debugContainer {
   padding: 1em;
@@ -30,6 +80,7 @@ body {
 
 #imageContainer img {
   width: 100%;
+  transition: all 0.4s ease;
 }
 
 p {

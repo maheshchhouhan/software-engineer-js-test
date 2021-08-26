@@ -19,10 +19,19 @@
                 </fieldset>
             </form>
             <div class="column">
-                <div id="imageContainer">
-                    <!-- will hold photos -->
+                <canvas id="canvas">
+                    <div id="imageContainer">
+                        <!-- will hold photos -->
+                    </div>
+                </canvas>
+                <div class="buttonContainer">
+                    <button class="scaleImageButtons" data-percentage="100">Fit to original</button>
+                    <button class="scaleImageButtons" data-percentage="50">Scal to 50%</button>
+                    <button class="scaleImageButtons" data-percentage="200">Scal to 200%</button>
                 </div>
-                <button id="generateButton">Generate!</button>
+                <div class="buttonContainer">
+                    <button id="generateButton">Generate!</button>
+                </div>
                 <div id="debugContainer">
                     <!-- will hold debug messages -->
                 </div>
