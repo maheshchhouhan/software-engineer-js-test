@@ -19,5 +19,9 @@
     "css-loader": "^6.2.0",
     "style-loader": "^3.2.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@apollo/client": "^3.4.10",
+    "apollo-upload-client": "^16.0.0",
+    "graphql": "^15.5.1"
+  }
 }

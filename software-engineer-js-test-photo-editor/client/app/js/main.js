@@ -1,16 +1,19 @@
-import { VALID_IMAGE_TYPES } from "./constants";
-import { log, validateImageType } from "./utils";
-import { readImage, fitToCanvas } from "./canvas";
+import { VALID_IMAGE_TYPES } from "./config/constants";
+import { log, showButtons, validateImageType } from "./common/utils";
+import { readImage, fitToCanvas, generateData, importData } from "./canvas";
 
 import "../css/main.scss";
 
 // grab DOM elements inside index.html
 const fileSelector = document.getElementById("fileSelector");
 const generateButton = document.getElementById("generateButton");
+const importButton = document.getElementById("importButton");
 const scaleImageButtons = document.querySelectorAll(".scaleImageButtons");
+const generatedDataTextarea = document.getElementById("generatedDataTextarea");
 const canvas = document.getElementById("canvas");
 
 let image;
+let scalePercentage;
 
 fileSelector.addEventListener("change", async (e) => {
   try {
@@ -23,27 +26,29 @@ fileSelector.addEventListener("change", async (e) => {
       validateImageType(file, VALID_IMAGE_TYPES);
       // read Image contents from file
       image = await readImage(file, "canvas");
+      // fitting image to canvas
       fitToCanvas(image, canvas);
+      // displaying buttons
+      showButtons(generateButton);
+      showButtons(scaleImageButtons);
     }
   } catch (e) {
     log(e.message, "debugContainer");
   }
 });
 
-generateButton.onclick = (e) => {
-  log(
-    "GENERATE BUTTON CLICKED!! Should this do something else?",
-    "debugContainer"
-  );
-};
+generateButton.addEventListener("click", () =>
+  generateData(image, canvas, scalePercentage, generatedDataTextarea)
+);
 
-const scaleImage = (e) => {
-  const { percentage } = e.target.dataset;
-  fitToCanvas(image, canvas, +percentage);
-};
+importButton.addEventListener("click", () => importData(canvas));
 
 scaleImageButtons.forEach((button) =>
-  button.addEventListener("click", scaleImage)
+  button.addEventListener("click", (e) => {
+    const { percentage } = e.target.dataset;
+    scalePercentage = +percentage;
+    fitToCanvas(image, canvas, +percentage);
+  })
 );
 
 log("Test application ready", "debugContainer");
