@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const typeDefs = require("./graphql/typeDefs");
 const resolvers = require("./graphql/resolvers");
-const { MONGODB } = require("./config.js");
+const { MONGODB, PORT } = require("./config.js");
 
 const server = new ApolloServer({
   typeDefs,
@@ -16,10 +16,10 @@ mongoose
     useNewUrlParser: true,
   })
   .then(() => {
-    return server.listen({ port: 5000 });
+    return server.listen({ port: PORT });
   })
   .then(() => {
-    const url = `http:localhost:5000`;
+    const url = `http:localhost:${PORT}`;
     console.log(`🚀 Server ready at: ${url}`);
   })
   .catch((err) => {
