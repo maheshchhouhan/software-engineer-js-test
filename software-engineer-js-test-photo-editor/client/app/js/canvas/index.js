@@ -1,6 +1,8 @@
 import { fetchQuery } from "../common/api";
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from "../config/constants";
+import { CANVAS_WIDTH, CANVAS_HEIGHT, LOADING } from "../config/constants";
 import { log, showHideElements } from "../common/utils";
+
+const { ON, OFF } = LOADING;
 
 // writing some re-usable image canvas functions
 const getScaleToFit = (image, canvas, scalePercentage) => {
@@ -33,6 +35,8 @@ export const fitToCanvas = (image, canvas, scalePercentage) => {
   const x = canvas.width / 2 - (image.width / 2) * scale;
   const y = canvas.height / 2 - (image.height / 2) * scale;
   ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
+  // Showing JSON object into textarea
+  showDataToTextarea(image, canvas, x.toFixed(), y.toFixed());
 };
 
 export const readImage = (file) => {
@@ -85,12 +89,12 @@ export const importData = async (canvas) => {
     }
   `;
 
-    handleLoading(1);
+    handleLoading(ON);
     const fetchImage = await fetchQuery(query);
     const {
       data: { getImage },
     } = await fetchImage.json();
-    handleLoading(0);
+    handleLoading(OFF);
 
     const { data, image: imageSrc } = getImage;
     const { imageWidth, imageHeight, scalePercentage } = JSON.parse(data);
@@ -102,16 +106,33 @@ export const importData = async (canvas) => {
       fitToCanvas(image, canvas, +scalePercentage);
     };
   } catch (e) {
+    handleLoading(OFF);
     log(e.message, "debugContainer");
   }
 };
 
-export const generateData = async (
-  image,
-  canvas,
-  scalePercentage,
-  generatedDataTextarea
-) => {
+export const showDataToTextarea = (image, canvas, x, y) => {
+  const data = {
+    canvas: {
+      width: canvas.width,
+      height: canvas.height,
+      photo: {
+        width: image.width,
+        height: image.height,
+        x,
+        y,
+      },
+    },
+  };
+  const dataString = JSON.stringify(data, undefined, 4);
+  const generatedDataTextarea = document.getElementById(
+    "generatedDataTextarea"
+  );
+  generatedDataTextarea.value = dataString;
+  generatedDataTextarea.style.display = "block";
+};
+
+export const generateData = async (image, canvas, scalePercentage) => {
   try {
     const scale = getScaleToFit(image, canvas, scalePercentage);
     const x = (canvas.width / 2 - (image.width / 2) * scale).toFixed();
@@ -133,27 +154,14 @@ export const generateData = async (
         }
       }
     `;
-    handleLoading(1);
+    handleLoading(ON);
     await fetchQuery(query);
-    handleLoading(0);
+    handleLoading(OFF);
 
     // Showing JSON object into textarea
-    const data = {
-      canvas: {
-        width: canvas.width,
-        height: canvas.height,
-        photo: {
-          width: image.width,
-          height: image.height,
-          x,
-          y,
-        },
-      },
-    };
-    const dataString = JSON.stringify(data, undefined, 4);
-    generatedDataTextarea.value = dataString;
-    generatedDataTextarea.style.display = "block";
+    showDataToTextarea(image, canvas, x, y);
   } catch (e) {
+    handleLoading(OFF);
     log(e.message, "debugContainer");
   }
 };

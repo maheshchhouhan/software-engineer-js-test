@@ -1,0 +1,14 @@
+$primaryColor: #008cba;
+$secondaryColor: #4caf50;
+
+@mixin button($bg-color) {
+  background-color: $bg-color;
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 13px;
+}

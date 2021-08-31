@@ -2,14 +2,13 @@ import { VALID_IMAGE_TYPES } from "./config/constants";
 import { log, showButtons, validateImageType } from "./common/utils";
 import { readImage, fitToCanvas, generateData, importData } from "./canvas";
 
-import "../css/main.scss";
+import "../css/main.css";
 
 // grab DOM elements inside index.html
 const fileSelector = document.getElementById("fileSelector");
 const generateButton = document.getElementById("generateButton");
 const importButton = document.getElementById("importButton");
 const scaleImageButtons = document.querySelectorAll(".scaleImageButtons");
-const generatedDataTextarea = document.getElementById("generatedDataTextarea");
 const canvas = document.getElementById("canvas");
 
 let image;
@@ -19,9 +18,7 @@ fileSelector.addEventListener("change", async (e) => {
   try {
     // get all selected Files
     const files = e.target.files;
-    let file = "";
-    for (let i = 0; i < files.length; ++i) {
-      file = files[i];
+    for (const file of files) {
       // check if file is valid Image (just a MIME check)
       validateImageType(file, VALID_IMAGE_TYPES);
       // read Image contents from file
@@ -38,7 +35,7 @@ fileSelector.addEventListener("change", async (e) => {
 });
 
 generateButton.addEventListener("click", () =>
-  generateData(image, canvas, scalePercentage, generatedDataTextarea)
+  generateData(image, canvas, scalePercentage)
 );
 
 importButton.addEventListener("click", () => importData(canvas));
